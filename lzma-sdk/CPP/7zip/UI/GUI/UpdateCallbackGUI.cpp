@@ -90,6 +90,11 @@ HRESULT CUpdateCallbackGUI::ScanProgress(const CDirItemsStat &st, const FString 
       st.GetTotalBytes(), path, isDir);
 }
 
+HRESULT CUpdateCallbackGUI::OverrideLogName(const FString &physPath, UString &logPath, bool isDir)
+{
+  return S_FALSE;  
+}
+
 /*
 HRESULT CUpdateCallbackGUI::Finalize()
 {

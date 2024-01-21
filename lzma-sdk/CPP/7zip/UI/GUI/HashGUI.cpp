@@ -114,6 +114,11 @@ HRESULT CHashCallbackGUI::ScanError(const FString &path, DWORD systemError)
   return CheckBreak();
 }
 
+HRESULT CHashCallbackGUI::OverrideLogName(const FString &physPath, UString &logPath, bool isDir)
+{
+  return S_FALSE;  
+}
+
 HRESULT CHashCallbackGUI::FinishScanning(const CDirItemsStat &st)
 {
   return ScanProgress(st, FString(), false); // isDir

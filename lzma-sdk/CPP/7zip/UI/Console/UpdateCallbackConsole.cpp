@@ -179,6 +179,11 @@ HRESULT CUpdateCallbackConsole::ScanProgress(const CDirItemsStat &st, const FStr
   return CheckBreak();
 }
 
+HRESULT CUpdateCallbackConsole::OverrideLogName(const FString &physPath, UString &logPath, bool isDir)
+{
+  return S_FALSE;  
+}
+
 void CCallbackConsoleBase::CommonError(const FString &path, DWORD systemError, bool isWarning)
 {
   ClosePercents2();

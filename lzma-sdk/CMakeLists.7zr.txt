@@ -149,6 +149,15 @@ list(APPEND src_7zr_shared C/XzEnc.c)
 list(APPEND src_7zr_shared C/XzIn.c)
 
 # CONSOLE_OBJS
+list(APPEND hdr_7zr_shared CPP/7zip/UI/Console/BenchCon.h)
+list(APPEND hdr_7zr_shared CPP/7zip/UI/Console/ConsoleClose.h)
+list(APPEND hdr_7zr_shared CPP/7zip/UI/Console/ExtractCallbackConsole.h)
+list(APPEND hdr_7zr_shared CPP/7zip/UI/Console/HashCon.h)
+list(APPEND hdr_7zr_shared CPP/7zip/UI/Console/List.h)
+list(APPEND hdr_7zr_shared CPP/7zip/UI/Console/OpenCallbackConsole.h)
+list(APPEND hdr_7zr_shared CPP/7zip/UI/Console/PercentPrinter.h)
+list(APPEND hdr_7zr_shared CPP/7zip/UI/Console/UpdateCallbackConsole.h)
+list(APPEND hdr_7zr_shared CPP/7zip/UI/Console/UserInputUtils.h)
 list(APPEND src_7zr_shared CPP/7zip/UI/Console/BenchCon.cpp)
 list(APPEND src_7zr_shared CPP/7zip/UI/Console/ConsoleClose.cpp)
 list(APPEND src_7zr_shared CPP/7zip/UI/Console/ExtractCallbackConsole.cpp)
@@ -193,13 +202,14 @@ list(APPEND src_7zr_shared C/XzCrc64.c) #TODO Not including .asm files
 list(APPEND src_7zr_shared C/XzCrc64Opt.c)
 
 # LzFindOpt.mak
-# TODO !include "../../LzmaDec.mak" ?
 list(APPEND src_7zr_shared C/LzFindOpt.c)
 
 # Sha256.mak
 list(APPEND src_7zr_shared CPP/Common/Sha256Prepare.cpp)
 list(APPEND src_7zr_shared C/Sha256.c)
 list(APPEND src_7zr_shared C/Sha256Opt.c)
+
+#TODO Use asm files were possible
 
 # 7zip.mak
 list(APPEND src_7zr_exe C/7zVersion.rc)
@@ -210,4 +220,5 @@ list(APPEND src_7zr_exe CPP/7zip/UI/Console/MainAr.cpp)
 add_library(7zrObj OBJECT ${src_7zr_shared})
 
 add_executable(7zr $<TARGET_OBJECTS:7zrObj>)
-target_sources(7zr PRIVATE ${src_7zr_exe})
+target_sources(7zr PRIVATE ${src_7zr_exe}
+		PUBLIC ${hdr_7zr_shared})

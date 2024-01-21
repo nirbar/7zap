@@ -191,6 +191,11 @@ struct CDirItemsCallback_AgentOut Z7_final: public IDirItemsCallback
       return FolderArchiveUpdateCallback->SetNumFiles(st.NumFiles);
     return S_OK;
   }
+
+  HRESULT OverrideLogName(const FString &physPath, UString &logPath, bool isDir) Z7_override
+  {
+	return S_FALSE;  
+  }
 };
 
   
