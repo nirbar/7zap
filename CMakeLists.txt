@@ -5,3 +5,4 @@ project ("7Zap")
 set_property(GLOBAL PROPERTY COMPILE_WARNING_AS_ERROR)
 
 add_subdirectory ("lzma-sdk")
+add_subdirectory ("7Zap")

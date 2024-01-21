@@ -1,0 +1,6 @@
+LIBRARY "7Zap"
+
+EXPORTS
+  Update7z
+  Extract7z
+
