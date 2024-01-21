@@ -1,0 +1,63 @@
+name: Build
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      publish_nuget:
+        description: 'Publish nuget package?'
+        required: true
+        default: false
+        type: boolean
+
+jobs:
+  Build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3.3.0
+        with:
+          submodules: 'true'
+      - uses: microsoft/setup-msbuild@v1
+
+      - name: Build x86
+        run: |
+          mkdir build-x86
+          cd build-x86
+          cmake ..\ -A Win32 "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+          cmake --build . --config Release
+
+      - name: Build Arm64
+        run: |
+          mkdir build-Arm64
+          cd build-Arm64
+          cmake ..\ -A Arm64 "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+          cmake --build . --config Release
+
+      - name: Build x64
+        run: |
+          mkdir build-x64
+          cd build-x64
+          cmake ..\ -A x64 "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+          cmake --build . --config Release
+
+      - name: Nuget pack
+        run: |
+          nuget pack 7Zap\Nuget\7Zap.NET.nuspec -Version 23.01.${{ github.run_number }} -BasePath "${{ github.workspace }}" -NonInteractive -Properties "src_root=.;build_x64=build-x64;build_x86=build-x86;build_arm64=build-Arm64;config=Release"
+
+      - uses: actions/upload-artifact@v3.1.2
+        with:
+          name: 7Zap
+          path: |
+            build-x86\7Zap\7Zap\Release\7Zap.dll
+            build-x64\7Zap\7Zap\Release\7Zap.dll
+            build-Arm64\7Zap\7Zap\Release\7Zap.dll
+            build-x64\7Zap\7Zap.NET\Release\7Zap.NET.dll
+            7Zap.NET.*.nupkg
+
+      - name: Publish nuget packages to github and nuget.org
+        if: ${{ github.event.inputs.publish_nuget == 'true' }}
+        run: |
+          dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.TAGGER_PAT }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+          dotnet nuget push 7Zap.NET.*.nupkg --api-key ${{ secrets.TAGGER_PAT }} --source github
+          dotnet nuget push 7Zap.NET.*.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
+          git tag "v23.01.${{ github.run_number }}"
+          git push --tags

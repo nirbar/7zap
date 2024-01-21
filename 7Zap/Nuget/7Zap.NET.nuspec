@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>7Zap.NET</id>
+		<title>7Zap.NET: dotnet 7z creator</title>
+        <version>23.01</version>
+        <description>dotnet assembly that creates or updated 7z archives</description>
+        <authors>Nir Bar</authors>
+        <repository type="git" url="https://github.com/nirbar/7zap"/>
+		<projectUrl>https://github.com/nirbar/7zap</projectUrl>
+		<license type="expression">MIT</license>
+	    <readme>README.md</readme>
+    </metadata>
+    <files>
+        <file src="README.md" target="\" />
+
+		<!-- .net -->
+        <file src="$build_x64$\7Zap\7Zap.NET\$config$\7Zap.NET.dll" target="lib\netstandard2\" />
+        <file src="$build_x64$\7Zap\7Zap\$config$\7Zap.dll" target="lib\netstandard2\win-x64\" />
+        <file src="$build_x86$\7Zap\7Zap\$config$\7Zap.dll" target="lib\netstandard2\win-x86\" />
+        <file src="$build_arm64$\7Zap\7Zap\$config$\7Zap.dll" target="lib\netstandard2\win-arm64\" />
+    </files>
+</package>
