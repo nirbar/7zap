@@ -48,7 +48,7 @@ HRESULT CUpdateCallback7Zap::OverrideLogName(const FString& physPath, UString& l
 {
   for (size_t i = 0; i < _nFiles; ++i)
   {
-    if (!_pFiles[i].IsEmpty() && !_pEntryNames[i].IsEmpty() && (_pFiles[i].Compare(physPath) == 0))
+    if (!_pFiles[i].IsEmpty() && !_pEntryNames[i].IsEmpty() && ArePathsEqual(_pFiles[i], physPath))
     {
       logPath = _pEntryNames[i];
       if (isDir)
@@ -85,4 +85,13 @@ HRESULT CUpdateCallback7Zap::OverrideLogName(const FString& physPath, UString& l
   }
 
   return S_FALSE;
+}
+
+bool CUpdateCallback7Zap::ArePathsEqual(const FString& path1, const FString& path2)
+{
+#ifdef _WIN32
+  return (wcsicmp((const wchar_t*)path1, (const wchar_t*)path2) == 0);
+#else
+  return (strcmp((const char*)path1, (const char*)path2) == 0);
+#endif // _WIN32
 }

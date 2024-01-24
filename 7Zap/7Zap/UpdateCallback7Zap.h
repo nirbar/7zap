@@ -16,6 +16,9 @@ public:
   HRESULT OverrideLogName(const FString& physPath, UString& logPath, bool isDir) Z7_override;
 
 private:
+
+  bool ArePathsEqual(const FString& path1, const FString& path2);
+
   HANDLE _hCancelEvent = NULL;
   FString* _pFiles = nullptr;
   UString* _pEntryNames = nullptr;

@@ -4,7 +4,7 @@ using System.IO;
 
 namespace SevenZap
 {
-	public static class Program
+	internal static class Program
 	{
 		public static int Main(params string[] args)
 		{

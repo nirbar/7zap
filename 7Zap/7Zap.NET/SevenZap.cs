@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 
@@ -21,7 +22,7 @@ namespace SevenZap
 					cancelToken.Value.Register(() => cancelEvent.Set());
 				}
 
-				List<string> files = new List<string>(fileEntries.Select(f => f.FullPath));
+				List<string> files = new List<string>(fileEntries.Select(f => Path.GetFullPath(f.FullPath)));
 				List<string> entries = new List<string>(fileEntries.Select(f => f.EntryName));
 
 				PInvoke.UpdateArchive(archivePath, cancelEvent, files, entries);
