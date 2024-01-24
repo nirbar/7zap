@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+	<PropertyGroup>
+		<SevenZapIncludePath>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\lib\native\inc'))</SevenZapIncludePath>
+
+		<SevenZapLibPathX86>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\lib\native\win-x86'))</SevenZapLibPathX86>
+		<SevenZapLibPathX64>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\lib\native\win-x64'))</SevenZapLibPathX64>
+		<SevenZapLibPathArm64>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\lib\native\win-arm64'))</SevenZapLibPathArm64>
+		
+		<SevenZapLibPath Condition=" '$(Platform)' == 'Win32' OR '$(Platform)' == 'x86' ">$(SevenZapLibPathX86)</SevenZapLibPath>
+		<SevenZapLibPath Condition=" '$(Platform)' == 'x64' ">$(SevenZapLibPathX64)</SevenZapLibPath>
+		<SevenZapLibPath Condition=" '$(Platform)' == 'ARM64' ">$(SevenZapLibPathArm64)</SevenZapLibPath>
+	</PropertyGroup>
+</Project>

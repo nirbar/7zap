@@ -12,7 +12,7 @@
 	    <readme>README.md</readme>
     </metadata>
     <files>
-        <file src="README.md" target="\" />
+        <file src="$src_root$\README.md" target="\" />
 
 		<!-- .net -->
         <file src="$build_x64$\7Zap\7Zap.NET\$config$\7Zap.NET.dll" target="lib\netstandard2\" />

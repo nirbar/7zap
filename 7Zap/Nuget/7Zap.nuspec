@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>7Zap</id>
+		<title>7Zap: 7z creator</title>
+        <version>23.01</version>
+        <description>Library to create, update, and extract 7z archives</description>
+        <authors>Nir Bar</authors>
+        <repository type="git" url="https://github.com/nirbar/7zap"/>
+		<projectUrl>https://github.com/nirbar/7zap</projectUrl>
+		<license type="expression">MIT</license>
+	    <readme>README.md</readme>
+    </metadata>
+    <files>
+        <file src="$src_root$\README.md" target="\" />
+        <file src="$src_root$\7Zap\Nuget\7Zap.props" target="build\" />
+		
+		<!-- inc -->
+        <file src="$src_root$\lzma-sdk\C\*.h" target="lib\native\inc\7zC\" />
+
+		<!-- 7zC.lib files -->
+        <file src="$build_x86$\lzma-sdk\C\$config$\7zC.lib" target="lib\native\win-x86\" />
+        <file src="$build_x64$\lzma-sdk\C\$config$\7zC.lib" target="lib\native\win-x64\" />
+        <file src="$build_arm64$\lzma-sdk\C\$config$\7zC.lib" target="lib\native\win-arm64\" />
+    </files>
+</package>
