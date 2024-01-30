@@ -39,9 +39,12 @@ jobs:
           cmake ..\ -A x64 "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
           cmake --build . --config Release
 
+      - name: Build 7Zap.NET
+        run: |
+          msbuild 7Zap\dirs.proj -restore -p:FullVersion=23.01.${{ github.run_number }}
+
       - name: Nuget pack
         run: |
-          nuget pack 7Zap\Nuget\7Zap.NET.nuspec -Version 23.01.${{ github.run_number }} -BasePath "${{ github.workspace }}" -NonInteractive -Properties "src_root=.;build_x64=build-x64;build_x86=build-x86;build_arm64=build-Arm64;config=Release"
           nuget pack 7Zap\Nuget\7Zap.nuspec -Version 23.01.${{ github.run_number }} -BasePath "${{ github.workspace }}" -NonInteractive -Properties "src_root=.;build_x64=build-x64;build_x86=build-x86;build_arm64=build-Arm64;config=Release"
 
       - uses: actions/upload-artifact@v3.1.2

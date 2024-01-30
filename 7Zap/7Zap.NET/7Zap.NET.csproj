@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>SevenZap</RootNamespace>
+    <TargetName>7Zap.NET</TargetName>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Nuspec">
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
+    <PackageId>7Zap.NET</PackageId>
+    <PackageVersion>$(FullVersion)</PackageVersion>
+    <Title>7Zap.NET: dotnet 7z creator</Title>
+    <Authors>Nir Bar</Authors>
+    <Company>N.B- Panel::Software Ltd.</Company>
+    <PackageOutputPath>..\..\</PackageOutputPath>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Description>dotnet assembly that creates or updated 7z archives</Description>
+    <Copyright>Copyright ©2011-$([System.DateTime]::Now.ToString("yyyy")) Panel::Software</Copyright>
+    <PackageProjectUrl>https://github.com/nirbar/7zap</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/nirbar/7zap</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\README.md" Visible="false" Pack="true" PackagePath="README.md" />
+    <None Include="..\..\build-x64\7Zap\7Zap\$(Configuration)\7Zap.dll" Visible="false" Pack="true" PackagePath="lib\netstandard2.0\win-x64\7Zap.dll" />
+    <None Include="..\..\build-x86\7Zap\7Zap\$(Configuration)\7Zap.dll" Visible="false" Pack="true" PackagePath="lib\netstandard2.0\win-x86\7Zap.dll" />
+    <None Include="..\..\build-arm64\7Zap\7Zap\$(Configuration)\7Zap.dll" Visible="false" Pack="true" PackagePath="lib\netstandard2.0\win-arm64\7Zap.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="TidyBuild" />
+  </ItemGroup>
+
+</Project>

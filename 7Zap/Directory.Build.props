@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup Label="Build folders">
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <BaseBuildFolder Condition="'$(BaseBuildFolder)'==''">$(MSBuildThisFileDirectory)..\build\</BaseBuildFolder>
+    <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'==''">$(BaseBuildFolder)obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    <MSBuildProjectExtensionsPath Condition="'$(MSBuildProjectExtensionsPath )'==''">$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
+
+    <BuildFolder Condition="'$(BuildFolder)'==''">$(BaseBuildFolder)$(Platform)\</BuildFolder>
+    <OutputPath Condition="'$(OutputPath)'==''">$(BuildFolder)bin\$(Configuration)\$(MSBuildProjectName)\</OutputPath>
+    <OutDirLib Condition="'$(OutDirLib)'==''">$(BuildFolder)lib\$(Configuration)\</OutDirLib>
+    <IntermediateOutputPath Condition="'$(IntermediateOutputPath)'==''">$(BuildFolder)obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
+
+    <OutDir Condition="'$(OutDir)'==''">$(OutputPath)</OutDir>
+    <IntDir Condition="'$(IntDir)'==''">$(IntermediateOutputPath)</IntDir>
+    <OutputDirectory Condition="'$(OutputDirectory)'==''">$(OutputPath)</OutputDirectory>
+    <IntermediateDirectory Condition="'$(IntermediateDirectory)'==''">$(IntermediateOutputPath)</IntermediateDirectory>
+
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+</Project>

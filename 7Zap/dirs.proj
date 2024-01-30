@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.Build.Traversal">
+  <PropertyGroup>
+    <TraversalGlobalProperties>SolutionDir=$(MSBuildThisFileDirectory);BuildProjectReferences=false</TraversalGlobalProperties>
+    <CustomBeforeTraversalProps>$(MSBuildThisFileDirectory)Directory.Build.props</CustomBeforeTraversalProps>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="7Zap.NET\7Zap.NET.csproj" Properties="Configuration=$(Configuration);Platform=AnyCPU" Targets="Restore;Build" BuildInParallel="false" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="TidyBuild" />
+  </ItemGroup>
+</Project>
