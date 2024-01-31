@@ -69,7 +69,7 @@ HRESULT CUpdateCallback7Zap::OverrideLogName(const FString& physPath, UString& l
   FoldersMapIterator bestMatch = endIt;
   for (FoldersMapIterator it = _folders.begin(); it != endIt; ++it)
   {
-    if ((physPath.Find(it->physPath) == 0) && ((bestMatch == endIt) || (bestMatch->physPath.Len() < it->physPath.Len())))
+    if (IsNested(it->physPath, physPath) && ((bestMatch == endIt) || (bestMatch->physPath.Len() < it->physPath.Len())))
     {
       bestMatch = it;
     }
@@ -87,11 +87,22 @@ HRESULT CUpdateCallback7Zap::OverrideLogName(const FString& physPath, UString& l
   return S_FALSE;
 }
 
-bool CUpdateCallback7Zap::ArePathsEqual(const FString& path1, const FString& path2)
+bool CUpdateCallback7Zap::ArePathsEqual(const FString& path1, const FString& path2) const
 {
 #ifdef _WIN32
   return (wcsicmp((const wchar_t*)path1, (const wchar_t*)path2) == 0);
 #else
   return (strcmp((const char*)path1, (const char*)path2) == 0);
+#endif // _WIN32
+}
+
+bool CUpdateCallback7Zap::IsNested(const FString& parent, const FString& child) const
+{
+#ifdef _WIN32
+  size_t len = wcslen((const wchar_t*)parent);
+  return (wcsnicmp((const wchar_t*)parent, (const wchar_t*)child, len) == 0);
+#else
+  size_t len = strlen((const char*)parent);
+  return (strncmp((const char*)path1, (const char*)path2) == 0);
 #endif // _WIN32
 }

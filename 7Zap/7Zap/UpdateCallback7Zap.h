@@ -17,7 +17,9 @@ public:
 
 private:
 
-  bool ArePathsEqual(const FString& path1, const FString& path2);
+  bool ArePathsEqual(const FString& path1, const FString& path2) const;
+
+  bool IsNested(const FString& parent, const FString& child) const;
 
   HANDLE _hCancelEvent = NULL;
   FString* _pFiles = nullptr;
