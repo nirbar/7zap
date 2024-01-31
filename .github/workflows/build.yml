@@ -22,30 +22,30 @@ jobs:
         run: |
           mkdir build-x86
           cd build-x86
-          cmake ..\ -A Win32 "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+          cmake ..\ -A Win32 "-DCMAKE_SYSTEM_VERSION=10.0.19041.0" -DVERSION_BUILD=${{ github.run_number }}
           cmake --build . --config Release
 
       - name: Build Arm64
         run: |
           mkdir build-Arm64
           cd build-Arm64
-          cmake ..\ -A Arm64 "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+          cmake ..\ -A Arm64 "-DCMAKE_SYSTEM_VERSION=10.0.19041.0" -DVERSION_BUILD=${{ github.run_number }}
           cmake --build . --config Release
 
       - name: Build x64
         run: |
           mkdir build-x64
           cd build-x64
-          cmake ..\ -A x64 "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+          cmake ..\ -A x64 "-DCMAKE_SYSTEM_VERSION=10.0.19041.0" -DVERSION_BUILD=${{ github.run_number }}
           cmake --build . --config Release
 
       - name: Build 7Zap.NET
         run: |
-          msbuild 7Zap\dirs.proj -restore -p:FullVersion=23.01.${{ github.run_number }}
+          msbuild 7Zap\dirs.proj -restore -p:FullVersion=23.1.${{ github.run_number }}
 
       - name: Nuget pack
         run: |
-          nuget pack 7Zap\Nuget\7Zap.nuspec -Version 23.01.${{ github.run_number }} -BasePath "${{ github.workspace }}" -NonInteractive -Properties "src_root=.;build_x64=build-x64;build_x86=build-x86;build_arm64=build-Arm64;config=Release"
+          nuget pack 7Zap\Nuget\7Zap.nuspec -Version 23.1.${{ github.run_number }} -BasePath "${{ github.workspace }}" -NonInteractive -Properties "src_root=.;build_x64=build-x64;build_x86=build-x86;build_arm64=build-Arm64;config=Release"
 
       - uses: actions/upload-artifact@v3.1.2
         with:

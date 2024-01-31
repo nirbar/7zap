@@ -1,13 +1,19 @@
 cmake_minimum_required (VERSION 3.23)
 
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")					
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
+# Version number
+set (VERSION_MAJOR 23 CACHE STRING "Version number major (first figure)")
+set (VERSION_MINOR 1 CACHE STRING "Version number minor (second figure)")
+set (VERSION_BUILD 0 CACHE STRING "Version number build (third figure)")
+configure_file(7Zap.rc 7Zap.rc)
 
 file(GLOB hdr_7zap pch.h)
 file(GLOB hdr_7zap UpdateCallback7Zap.h)
 file(GLOB pub_hdr_7zap 7Zap.h)
 file(GLOB src_7zap *.cpp)
 list(APPEND src_7zap 7Zap.def)
-list(APPEND src_7zap 7Zap.rc)
+list(APPEND src_7zap ${CMAKE_CURRENT_BINARY_DIR}/7Zap.rc)
 
 add_library(7Zap SHARED $<TARGET_OBJECTS:7zrObj>)
 target_sources(7Zap PRIVATE ${src_7zap}
