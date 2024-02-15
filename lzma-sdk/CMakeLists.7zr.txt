@@ -217,8 +217,9 @@ list(APPEND src_7zr_exe CPP/7zip/Bundles/Alone7z/StdAfx.cpp)
 list(APPEND src_7zr_exe CPP/7zip/UI/Console/Main.cpp)
 list(APPEND src_7zr_exe CPP/7zip/UI/Console/MainAr.cpp)
 
-add_library(7zrObj OBJECT ${src_7zr_shared})
+add_library(7zrLib STATIC ${src_7zr_shared})
 
-add_executable(7zr $<TARGET_OBJECTS:7zrObj>)
-target_sources(7zr PRIVATE ${src_7zr_exe}
-		PUBLIC ${hdr_7zr_shared})
+add_executable(7zr ${src_7zr_exe})
+target_link_libraries(7zr $<LINK_LIBRARY:WHOLE_ARCHIVE,7zrLib>)
+
+target_sources(7zr PUBLIC ${hdr_7zr_shared})

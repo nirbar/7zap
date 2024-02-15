@@ -9,7 +9,8 @@
 
   <PropertyGroup Label="Nuspec">
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <IsPackable>true</IsPackable>
+    <IsPackable Condition="'$(Configuration)' != 'Release'">false</IsPackable>
+    <IsPackable Condition="'$(Configuration)' == 'Release'">true</IsPackable>
     <PackageId>7Zap.NET</PackageId>
     <PackageVersion>$(FullVersion)</PackageVersion>
     <Title>7Zap.NET: dotnet 7z creator</Title>
@@ -25,12 +26,12 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\README.md" Visible="false" Pack="true" PackagePath="README.md" />
-    <None Include="..\..\build-x64\7Zap\7Zap\$(Configuration)\7Zap.dll" Visible="false" Pack="true" PackagePath="lib\netstandard2.0\win-x64\7Zap.dll" />
-    <None Include="..\..\build-x86\7Zap\7Zap\$(Configuration)\7Zap.dll" Visible="false" Pack="true" PackagePath="lib\netstandard2.0\win-x86\7Zap.dll" />
-    <None Include="..\..\build-arm64\7Zap\7Zap\$(Configuration)\7Zap.dll" Visible="false" Pack="true" PackagePath="lib\netstandard2.0\win-arm64\7Zap.dll" />
+    <None Include="..\..\build-x64\7Zap\7Zap\$(Configuration)\7Zap.dll" Visible="false" Pack="true" PackagePath="lib\netstandard2.0\win-x64\7Zap.dll"/>
+    <None Include="..\..\build-x86\7Zap\7Zap\$(Configuration)\7Zap.dll" Visible="false" Pack="true" PackagePath="lib\netstandard2.0\win-x86\7Zap.dll"/>
+    <None Include="..\..\build-arm64\7Zap\7Zap\$(Configuration)\7Zap.dll" Visible="false" Pack="true" PackagePath="lib\netstandard2.0\win-arm64\7Zap.dll"/>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="TidyBuild" />
+    <PackageReference Include="TidyBuild" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>
