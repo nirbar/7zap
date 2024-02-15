@@ -16,11 +16,17 @@
         <file src="$src_root$\7Zap\Nuget\7Zap.props" target="build\" />
 		
 		<!-- inc -->
-        <file src="$src_root$\lzma-sdk\C\*.h" target="lib\native\inc\7zC\" />
+        <file src="$src_root$\lzma-sdk\C\**\*.h" target="lib\native\inc\lzma-sdk\C\" />
+        <file src="$src_root$\lzma-sdk\CPP\**\*.h" target="lib\native\inc\lzma-sdk\CPP\" />
 
-		<!-- 7zC.lib files -->
+		<!-- 7zC.lib and 7zrLib.lib files -->
         <file src="$build_x86$\lzma-sdk\C\$config$\7zC.lib" target="lib\native\win-x86\" />
-        <file src="$build_x64$\lzma-sdk\C\$config$\7zC.lib" target="lib\native\win-x64\" />
-        <file src="$build_arm64$\lzma-sdk\C\$config$\7zC.lib" target="lib\native\win-arm64\" />
+        <file src="$build_x86$\lzma-sdk\$config$\7zrLib.lib" target="lib\native\win-x86\" />
+        
+		<file src="$build_x64$\lzma-sdk\C\$config$\7zC.lib" target="lib\native\win-x64\" />
+        <file src="$build_x64$\lzma-sdk\$config$\7zrLib.lib" target="lib\native\win-x64\" />
+        
+		<file src="$build_arm64$\lzma-sdk\C\$config$\7zC.lib" target="lib\native\win-arm64\" />
+        <file src="$build_arm64$\lzma-sdk\$config$\7zrLib.lib" target="lib\native\win-arm64\" />
     </files>
 </package>
