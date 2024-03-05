@@ -1,5 +1,10 @@
 #pragma once
 #include "pch.h"
+#include "lzma-sdk/CPP/Common/Common.h"
+#include "lzma-sdk/CPP/7zip/IDecl.h"
+#include "lzma-sdk/CPP/7zip/Archive/IArchive.h"
+#include "lzma-sdk/CPP/Common/MyString.h"
+#include "lzma-sdk/CPP/Common/MyCom.h"
 #include <memory>
 
 class CPanelSwLzmaExtractCallback Z7_final :
@@ -21,7 +26,7 @@ public:
 	BOOL HasErrors() const;
 
 private:
-	HRESULT OperationResultToString(Int32 opRes, LPCWSTR *psz) const;
+	HRESULT OperationResultToString(Int32 opRes, LPWSTR *psz) const;
 
 	IInArchive* _archive = nullptr;
 	std::unique_ptr<UInt32[]> _extractIndices;

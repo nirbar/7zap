@@ -45,27 +45,38 @@ class CStdOutStream* g_ErrStream = new CStdOutStream();
 extern HINSTANCE g_hInstance;
 HINSTANCE g_hInstance = NULL;
 
-int main(int argc, char* argv)
+int main(int argc, char** argv)
 {
-  IID_IInStream;
-  FChar* archivePath = L"D:\\Tools\\ISO\\en_windows_server_2012_r2_with_update_x64_dvd_6052708.7z";
-  FChar* targetFolder = L"D:\\Projects\\7Zap\\test\\";
-
   HRESULT hr = S_OK;
+  FString archivePath = L"D:\\Projects\\7Zap\\test.7z";
+  FString targetFolder = L"D:\\Projects\\7Zap\\test\\";
 
-  HANDLE hArchive = ::CreateFileW(archivePath, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+  if (argc > 1)
+  {
+    archivePath = argv[1];
+  }
+  if (argc > 2)
+  {
+    targetFolder = argv[2];
+  }
+
+  ::MessageBoxW(NULL, L"Attach debugger", L"Attach debugger", MB_OK);
 
   CREATE_CODECS_OBJECT;
   codecs->Load();
 
   CPanelSwLzmaInStream* inStreamSpec = new CPanelSwLzmaInStream();
   CMyComPtr<IInStream> inStream(inStreamSpec);
-  if (FAILED(inStreamSpec->InitArchive(hArchive)))
+
+  HANDLE hArchive = ::CreateFileW(archivePath, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+  hr = inStreamSpec->InitArchive(hArchive);
+  ReleaseFileHandle(hArchive);
+  if (FAILED(hr))
   {
-    return E_FAIL;
+    return hr;
   }
 
-  CArc* pArc = new CArc();
+  std::unique_ptr<CArc> pArc(new CArc());
   COpenOptions openOpts;
   openOpts.codecs = codecs;
   openOpts.stream = inStream;
@@ -114,6 +125,9 @@ int main(int argc, char* argv)
   extractClbk->Init(pArc->Archive, fileCount, extractIndices.get(), extractPaths.get());
 
   hr = pArc->Archive->Extract(extractIndices.get(), fileCount, 0, extractClbk);
+
+  pArc.reset();
+
   if (FAILED(hr))
   {
     printf("Failed to extract. Error 0x%08X", hr);

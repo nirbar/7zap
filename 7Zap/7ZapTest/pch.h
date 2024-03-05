@@ -16,6 +16,7 @@
 #include "lzma-sdk/CPP/Windows/ErrorMsg.h"
 #include "lzma-sdk/CPP/Windows/TimeUtils.h"
 #include "lzma-sdk/CPP/Windows/FileDir.h"
+#include "WixLogMacros.h"
 
 typedef long HRESULT;
 

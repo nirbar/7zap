@@ -20,14 +20,18 @@ public:
   Z7_IFACE_COM7_IMP(IStreamGetSize)
 
 public:
-  ~CPanelSwLzmaInStream();
+  virtual ~CPanelSwLzmaInStream();
 
-  HRESULT InitArchive(HANDLE hArchive, DWORD64 qwContainerStartPos = 0, DWORD64 qwContainerSize = ULLONG_MAX);
+  HRESULT InitContainer(HANDLE hBundle, DWORD64 qwContainerStartPos, DWORD64 qwContainerSize);
+  
+  static const DWORD64 INFINITE_CONTAINER_SIZE = (~(DWORD64)0);
 
 private:
-  void ReleaseArchive();
+  void ReleaseContainer();
 
-  HANDLE _hArchive = INVALID_HANDLE_VALUE;
+  static unsigned const MAX_RETRIES = 10;
+
+  HANDLE _hBundle = INVALID_HANDLE_VALUE;
   DWORD64 _qwContainerStartPos = 0;
   DWORD64 _qwContainerSize = 0;
   DWORD64 _qwBundleSize = 0;

@@ -13,30 +13,32 @@ Z7_CLASS_IMP_COM_1(
 Z7_IFACE_COM7_IMP(ISequentialOutStream)
 public:
 
-	~CPanelSwLzmaOutStream();
+	virtual ~CPanelSwLzmaOutStream();
 
-	HRESULT Create(LPCWSTR szPath, const FILETIME ftCreationTime, const FILETIME ftLastAccessTime, const FILETIME ftLastWriteTime);
+	HRESULT Create(LPCWSTR szPath, UInt64 ullSize, const FILETIME ftCreationTime, const FILETIME ftLastAccessTime, const FILETIME ftLastWriteTime);
 
 	HRESULT Close();
 
   private:
 
-    HRESULT WriteCore();
+	  HRESULT Seek(Int64 offset, UInt32 seekOrigin, UInt64* newPosition, bool updateNextWritePos);
 
-    HRESULT CompleteWrite();
+	  HRESULT CompleteWrite();
 
-		HANDLE _hFile = INVALID_HANDLE_VALUE;
-		FString _szPath;
-		FILETIME _ftCreationTime = { 0,0 };
-		FILETIME _ftLastAccessTime = { 0,0 };
-		FILETIME _ftLastWriteTime = { 0,0 };
-		
-		static unsigned const MAX_RETRIES = 10;
+	  HANDLE _hFile = INVALID_HANDLE_VALUE;
+	  LPWSTR _szPath;
+	  FILETIME _ftCreationTime = { 0,0 };
+	  FILETIME _ftLastAccessTime = { 0,0 };
+	  FILETIME _ftLastWriteTime = { 0,0 };
 
-    DWORD _dwWriteAttempts = 0;
-    UInt64 _ullWriteSize = 0;
-    UInt64 _ullBufferSize = 0;
-    unsigned char* _pWriteData = nullptr;
-    OVERLAPPED _overlapped = {};
-    ULARGE_INTEGER _ullNextWritePos = { 0,0 };
+	  static unsigned const MAX_RETRIES = 10;
+
+	  static DWORD WINAPI ExtractThreadProc(LPVOID lpParameter);
+
+	  HANDLE _hExtractThread = NULL;
+	  HANDLE _hExtractStarted = NULL;
+	  UInt64 _ullWriteSize = 0;
+	  UInt64 _ullBufferSize = 0;
+	  unsigned char* _pWriteData = nullptr;
+	  ULARGE_INTEGER _ullNextWritePos = { 0,0 };
 };
