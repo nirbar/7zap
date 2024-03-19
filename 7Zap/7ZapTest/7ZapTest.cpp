@@ -60,8 +60,6 @@ int main(int argc, char** argv)
     targetFolder = argv[2];
   }
 
-  ::MessageBoxW(NULL, L"Attach debugger", L"Attach debugger", MB_OK);
-
   CREATE_CODECS_OBJECT;
   codecs->Load();
 
