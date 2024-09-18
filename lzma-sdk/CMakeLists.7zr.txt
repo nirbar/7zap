@@ -191,25 +191,47 @@ list(APPEND src_7zr_shared C/DllSecur.c)
 
 # AES
 list(APPEND src_7zr_shared C/Aes.c) #TODO Not including .asm files
-list(APPEND src_7zr_shared C/AesOpt.c)
 
 # CRC
 list(APPEND src_7zr_shared C/7zCrc.c) #TODO Not including .asm files
-list(APPEND src_7zr_shared C/7zCrcOpt.c)
 
 # Crc64
 list(APPEND src_7zr_shared C/XzCrc64.c) #TODO Not including .asm files
-list(APPEND src_7zr_shared C/XzCrc64Opt.c)
-
-# LzFindOpt.mak
-list(APPEND src_7zr_shared C/LzFindOpt.c)
 
 # Sha256.mak
 list(APPEND src_7zr_shared CPP/Common/Sha256Prepare.cpp)
 list(APPEND src_7zr_shared C/Sha256.c)
-list(APPEND src_7zr_shared C/Sha256Opt.c)
 
-#TODO Use asm files were possible
+# Use asm files were possible
+if(${CMAKE_GENERATOR_PLATFORM} STREQUAL "x64")
+	list(APPEND src_7zr_shared_asm Asm/x86/7zCrcOpt.asm)
+	list(APPEND src_7zr_shared_asm Asm/x86/XzCrc64Opt.asm)
+	list(APPEND src_7zr_shared_asm Asm/x86/AesOpt.asm)
+	list(APPEND src_7zr_shared_asm Asm/x86/Sha256Opt.asm)
+	list(APPEND src_7zr_shared_asm Asm/x86/LzFindOpt.asm)
+
+#TODO: This fails with error "error LNK2026: module unsafe for SAFESEH image"	
+#elseif(${CMAKE_GENERATOR_PLATFORM} STREQUAL "Win32")
+#	list(APPEND src_7zr_shared_asm Asm/x86/7zCrcOpt.asm)
+#	list(APPEND src_7zr_shared_asm Asm/x86/XzCrc64Opt.asm)
+#	list(APPEND src_7zr_shared_asm Asm/x86/AesOpt.asm)
+#	list(APPEND src_7zr_shared_asm Asm/x86/Sha256Opt.asm)
+#
+#	list(APPEND src_7zr_shared C/LzFindOpt.c)
+	
+else()
+	list(APPEND src_7zr_shared C/7zCrcOpt.c)
+	list(APPEND src_7zr_shared C/AesOpt.c)
+	list(APPEND src_7zr_shared C/LzFindOpt.c)
+	list(APPEND src_7zr_shared C/Sha256Opt.c)
+	list(APPEND src_7zr_shared C/XzCrc64Opt.c)
+endif()
+
+list(LENGTH src_7zr_shared_asm has_asm)
+if(${has_asm} GREATER 0)
+	enable_language(ASM_MASM)
+	set_source_files_properties(${src_7zr_shared_asm} PROPERTY LANGUAGE ASM_MASM)
+endif()
 
 # 7zip.mak
 list(APPEND src_7zr_exe C/7zVersion.rc)
@@ -217,7 +239,7 @@ list(APPEND src_7zr_exe CPP/7zip/Bundles/Alone7z/StdAfx.cpp)
 list(APPEND src_7zr_exe CPP/7zip/UI/Console/Main.cpp)
 list(APPEND src_7zr_exe CPP/7zip/UI/Console/MainAr.cpp)
 
-add_library(7zrLib STATIC ${src_7zr_shared})
+add_library(7zrLib STATIC ${src_7zr_shared} ${src_7zr_shared_asm})
 
 add_executable(7zr ${src_7zr_exe})
 target_link_libraries(7zr $<LINK_LIBRARY:WHOLE_ARCHIVE,7zrLib>)
