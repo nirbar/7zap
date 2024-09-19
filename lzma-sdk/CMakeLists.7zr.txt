@@ -190,13 +190,13 @@ list(APPEND src_7zr_shared CPP/7zip/UI/Common/UpdateProduce.cpp)
 list(APPEND src_7zr_shared C/DllSecur.c)
 
 # AES
-list(APPEND src_7zr_shared C/Aes.c) #TODO Not including .asm files
+list(APPEND src_7zr_shared C/Aes.c)
 
 # CRC
-list(APPEND src_7zr_shared C/7zCrc.c) #TODO Not including .asm files
+list(APPEND src_7zr_shared C/7zCrc.c)
 
 # Crc64
-list(APPEND src_7zr_shared C/XzCrc64.c) #TODO Not including .asm files
+list(APPEND src_7zr_shared C/XzCrc64.c)
 
 # Sha256.mak
 list(APPEND src_7zr_shared CPP/Common/Sha256Prepare.cpp)

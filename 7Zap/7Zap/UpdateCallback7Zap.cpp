@@ -4,7 +4,7 @@
 CUpdateCallback7Zap::CUpdateCallback7Zap(HANDLE hCancelEvent, size_t nFiles, const FChar** ppFiles, const wchar_t** ppEntryNames)
   : _hCancelEvent(hCancelEvent)
 {
-  Init(nullptr, nullptr, nullptr);
+  Init(nullptr, nullptr, nullptr, true);
 
   if (ppFiles && ppEntryNames && nFiles)
   {

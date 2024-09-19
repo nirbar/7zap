@@ -62,7 +62,7 @@ extern "C" HRESULT __stdcall Update7z(const FChar* archivePath, HANDLE hCancelEv
     uo.Commands.Add(updateCommand);
 
     COpenCallbackConsole openCallback;
-    openCallback.Init(nullptr, nullptr, nullptr);
+    openCallback.Init(nullptr, nullptr, nullptr, true);
 
     CUpdateCallback7Zap callback(hCancelEvent, numFiles, files, entryNames);
 

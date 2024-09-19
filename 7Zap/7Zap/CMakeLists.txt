@@ -3,8 +3,8 @@ cmake_minimum_required (VERSION 3.23)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 # Version number
-set (VERSION_MAJOR 23 CACHE STRING "Version number major (first figure)")
-set (VERSION_MINOR 1 CACHE STRING "Version number minor (second figure)")
+set (VERSION_MAJOR 24 CACHE STRING "Version number major (first figure)")
+set (VERSION_MINOR 8 CACHE STRING "Version number minor (second figure)")
 set (VERSION_BUILD 0 CACHE STRING "Version number build (third figure)")
 configure_file(7Zap.rc 7Zap.rc)
 

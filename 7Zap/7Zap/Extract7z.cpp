@@ -16,7 +16,7 @@ extern "C" HRESULT __stdcall Extract7z(const FChar * archivePath, const FChar * 
 
   //Init
   censor.Add_Wildcard();
-  scan.Init(nullptr, nullptr, nullptr);
+  scan.Init(nullptr, nullptr, nullptr, true);
   censorProps.WildcardMatching = DoesNameContainWildcard(archivePath);
   censorProps.Recursive = censorProps.WildcardMatching;
   censorProps.MarkMode = NWildcard::kMark_FileOrDir;
@@ -35,7 +35,7 @@ extern "C" HRESULT __stdcall Extract7z(const FChar * archivePath, const FChar * 
   CExtractCallbackConsole* ecs = new CExtractCallbackConsole;
   CMyComPtr<IFolderArchiveExtractCallback> extractCallback = ecs;
 
-  ecs->Init(nullptr, nullptr, nullptr);
+  ecs->Init(nullptr, nullptr, nullptr, true);
   ecs->MultiArcMode = (archivePathsSorted.Size() > 1);
 
   CExtractOptions eo;

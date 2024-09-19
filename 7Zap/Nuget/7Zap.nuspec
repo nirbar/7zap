@@ -3,7 +3,7 @@
     <metadata>
         <id>7Zap</id>
 		<title>7Zap: 7z creator</title>
-        <version>23.01</version>
+        <version>24.08</version>
         <description>Library to create, update, and extract 7z archives</description>
         <authors>Nir Bar</authors>
         <repository type="git" url="https://github.com/nirbar/7zap"/>

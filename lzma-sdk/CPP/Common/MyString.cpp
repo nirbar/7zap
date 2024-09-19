@@ -615,9 +615,8 @@ void AString::SetFromWStr_if_Ascii(const wchar_t *s)
   _len = len;
   char *dest = _chars;
   unsigned i;
-  for (i = 0; i < len; i++)
+  for (i = 0; i <= len; ++i)
     dest[i] = (char)s[i];
-  dest[i] = 0;
 }
 
 /*
@@ -1206,7 +1205,8 @@ UString &UString::operator=(const wchar_t *s)
     _limit = len;
   }
   _len = len;
-  wmemcpy(_chars, s, len + 1);
+  if (_chars)
+    wmemcpy(_chars, s, len + 1);
   return *this;
 }
 
@@ -1223,7 +1223,8 @@ UString &UString::operator=(const UString &s)
     _limit = len;
   }
   _len = len;
-  wmemcpy(_chars, s._chars, len + 1);
+  if (_chars)
+    wmemcpy(_chars, s._chars, len + 1);
   return *this;
 }
 
@@ -1237,9 +1238,11 @@ void UString::SetFrom(const wchar_t *s, unsigned len) // no check
     _chars = newBuf;
     _limit = len;
   }
-  if (len != 0)
+  if (_chars && len != 0)
+  {
     wmemcpy(_chars, s, len);
-  _chars[len] = 0;
+    _chars[len] = 0;
+  }
   _len = len;
 }
 
@@ -1299,7 +1302,7 @@ void UString::SetFromBstr(LPCOLESTR s)
   #else
   */
 
-  // if (s)
+  if (_chars)
     wmemcpy(_chars, s, len + 1);
   
   // #endif

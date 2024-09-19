@@ -64,7 +64,8 @@ inline unsigned MyStringLen(const char *s)
 
 inline void MyStringCopy(char *dest, const char *src)
 {
-  while ((*dest++ = *src++) != 0);
+  if (dest && src)
+    while ((*dest++ = *src++) != 0);
 }
 
 inline char *MyStpCpy(char *dest, const char *src)

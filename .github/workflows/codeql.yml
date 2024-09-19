@@ -21,6 +21,12 @@ jobs:
 
       - uses: microsoft/setup-msbuild@v1
 
+      - name: Prepare for build
+        run: |
+          mkdir build-x86
+          cd build-x86
+          cmake ..\ -A Win32 "-DCMAKE_SYSTEM_VERSION=10.0.19041.0" -DVERSION_BUILD=${{ github.run_number }}
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
@@ -28,9 +34,6 @@ jobs:
 
       - name: Build x86
         run: |
-          mkdir build-x86
-          cd build-x86
-          cmake ..\ -A Win32 "-DCMAKE_SYSTEM_VERSION=10.0.19041.0" -DVERSION_BUILD=${{ github.run_number }}
           cmake --build . --config Release
 
       - name: Perform CodeQL Analysis

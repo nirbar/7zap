@@ -41,11 +41,11 @@ jobs:
 
       - name: Build 7Zap.NET
         run: |
-          msbuild 7Zap\dirs.proj -restore -p:FullVersion=23.1.${{ github.run_number }}
+          msbuild 7Zap\dirs.proj -restore -p:FullVersion=24.08.${{ github.run_number }}
 
       - name: Nuget pack
         run: |
-          nuget pack 7Zap\Nuget\7Zap.nuspec -Version 23.1.${{ github.run_number }} -BasePath "${{ github.workspace }}" -NonInteractive -Properties "src_root=.;build_x64=build-x64;build_x86=build-x86;build_arm64=build-Arm64;config=Release"
+          nuget pack 7Zap\Nuget\7Zap.nuspec -Version 24.08.${{ github.run_number }} -BasePath "${{ github.workspace }}" -NonInteractive -Properties "src_root=.;build_x64=build-x64;build_x86=build-x86;build_arm64=build-Arm64;config=Release"
 
       - uses: actions/upload-artifact@v4.4.0
         with:
@@ -59,5 +59,5 @@ jobs:
           dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.TAGGER_PAT }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
           dotnet nuget push 7Zap.*.nupkg --api-key ${{ secrets.TAGGER_PAT }} --source github
           dotnet nuget push 7Zap.*.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
-          git tag "v23.01.${{ github.run_number }}"
+          git tag "v24.08.${{ github.run_number }}"
           git push --tags

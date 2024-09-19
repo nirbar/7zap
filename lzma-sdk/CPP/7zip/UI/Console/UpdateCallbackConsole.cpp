@@ -253,6 +253,10 @@ HRESULT CUpdateCallbackConsole::ScanError(const FString &path, DWORD systemError
   return ScanError_Base(path, systemError);
 }
 
+HRESULT CUpdateCallbackConsole::OverrideLogName(const FString &physPath, UString &logPath, bool isDir)
+{
+  return S_FALSE;  
+}
 
 static void PrintPropPair(AString &s, const char *name, UInt64 val)
 {
