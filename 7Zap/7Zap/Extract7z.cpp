@@ -18,7 +18,7 @@ namespace SevenZap
 
     //Init
     censor.Add_Wildcard();
-    scan.Init(nullptr, nullptr, nullptr, true);
+  scan.Init(nullptr, nullptr, nullptr, true);
     censorProps.WildcardMatching = DoesNameContainWildcard(archivePath);
     censorProps.Recursive = censorProps.WildcardMatching;
     censorProps.MarkMode = NWildcard::kMark_FileOrDir;

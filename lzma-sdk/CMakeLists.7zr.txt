@@ -215,9 +215,9 @@ elseif(${CMAKE_GENERATOR_PLATFORM} STREQUAL "Win32")
 	list(APPEND src_7zr_shared_asm Asm/x86/XzCrc64Opt.asm)
 	list(APPEND src_7zr_shared_asm Asm/x86/AesOpt.asm)
 	list(APPEND src_7zr_shared_asm Asm/x86/Sha256Opt.asm)
+	list(APPEND src_7zr_shared_asm Asm/x86/Sort.asm)
 
 	list(APPEND src_7zr_shared C/LzFindOpt.c)
-	list(APPEND src_7zr_shared C/Sort.c)
 	
 else()
 	list(APPEND src_7zr_shared C/7zCrcOpt.c)

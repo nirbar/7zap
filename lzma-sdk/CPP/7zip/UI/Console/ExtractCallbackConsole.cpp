@@ -75,6 +75,10 @@ HRESULT CExtractScanConsole::ScanError(const FString &path, DWORD systemError)
   // return S_OK;
 }
 
+HRESULT CExtractScanConsole::OverrideLogName(const FString &physPath, UString &logPath, bool isDir)
+{
+  return S_FALSE;  
+}
 
 void Print_UInt64_and_String(AString &s, UInt64 val, const char *name);
 void Print_UInt64_and_String(AString &s, UInt64 val, const char *name)
