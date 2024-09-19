@@ -150,18 +150,7 @@ FString CDirItems::GetPhyPath(unsigned index) const
 UString CDirItems::GetLogPath(unsigned index) const
 {
   const CDirItem &di = Items[index];
-  FString lp = GetPrefixesPath(LogParents, di.LogParent, di.Name);
-
-  if (Callback)
-  {
-    FString pp = GetPhyPath(index);
-    FString fp = pp;
-
-    NDir::MyGetFullPathName(pp, fp);
-    Callback->OverrideLogName(fp, lp, di.IsDir());
-  }
-
-  return lp;
+  return GetPrefixesPath(LogParents, di.LogParent, di.Name);
 }
 
 void CDirItems::ReserveDown()
@@ -298,14 +287,12 @@ HRESULT CDirItems::EnumerateOneDir(const FString &phyPrefix, CObjectVector<NFind
   
   CObjectVector<NFind::CDirEntry> entries;
 
-  for (unsigned ttt = 0; ; ttt++)
+  for (;;)
   {
     bool found;
     NFind::CDirEntry de;
     if (!enumerator.Next(de, found))
-    {
       return AddError(phyPrefix);
-    }
     if (!found)
       break;
     entries.Add(de);

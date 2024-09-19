@@ -14,7 +14,7 @@ struct CErrorPathCodes
   FStringVector Paths;
   CRecordVector<DWORD> Codes;
 
-  void AddError(const FString& path, DWORD systemError)
+  void AddError(const FString &path, DWORD systemError)
   {
     Paths.Add(path);
     Codes.Add(systemError);
@@ -32,15 +32,15 @@ class CCallbackConsoleBase
 protected:
   CPercentPrinter _percent;
 
-  CStdOutStream* _so;
-  CStdOutStream* _se;
+  CStdOutStream *_so;
+  CStdOutStream *_se;
 
-  void CommonError(const FString& path, DWORD systemError, bool isWarning);
+  void CommonError(const FString &path, DWORD systemError, bool isWarning);
   // void CommonError(const char *message);
 
-  HRESULT ScanError_Base(const FString& path, DWORD systemError);
-  HRESULT OpenFileError_Base(const FString& name, DWORD systemError);
-  HRESULT ReadingFileError_Base(const FString& name, DWORD systemError);
+  HRESULT ScanError_Base(const FString &path, DWORD systemError);
+  HRESULT OpenFileError_Base(const FString &name, DWORD systemError);
+  HRESULT ReadingFileError_Base(const FString &name, DWORD systemError);
 
 public:
   bool NeedPercents() const { return _percent._so != NULL; }
@@ -54,23 +54,28 @@ public:
   AString _tempA;
   UString _tempU;
 
-  CCallbackConsoleBase() :
-    StdOutMode(false),
-    NeedFlush(false),
-    PercentsNameLevel(1),
-    LogLevel(0),
-    NumNonOpenFiles(0)
-  {}
-
+  CCallbackConsoleBase():
+      StdOutMode(false),
+      NeedFlush(false),
+      PercentsNameLevel(1),
+      LogLevel(0),
+      NumNonOpenFiles(0)
+      {}
+  
   void SetWindowWidth(unsigned width) { _percent.MaxLen = width - 1; }
 
-  void Init(CStdOutStream* outStream, CStdOutStream* errorStream, CStdOutStream* percentStream)
+  void Init(
+      CStdOutStream *outStream,
+      CStdOutStream *errorStream,
+      CStdOutStream *percentStream,
+      bool disablePercents)
   {
     FailedFiles.Clear();
 
     _so = outStream;
     _se = errorStream;
     _percent._so = percentStream;
+    _percent.DisablePrint = disablePercents;
   }
 
   void ClosePercents2()
@@ -89,37 +94,37 @@ public:
   CErrorPathCodes ScanErrors;
   UInt64 NumNonOpenFiles;
 
-  HRESULT PrintProgress(const wchar_t* name, bool isDir, const char* command, bool showInLog);
+  HRESULT PrintProgress(const wchar_t *name, bool isDir, const char *command, bool showInLog);
 
   // void PrintInfoLine(const UString &s);
   // void PrintPropInfo(UString &s, PROPID propID, const PROPVARIANT *value);
 };
 
 
-class CUpdateCallbackConsole :
+class CUpdateCallbackConsole Z7_final:
   public IUpdateCallbackUI2,
   public CCallbackConsoleBase
 {
   // void PrintPropPair(const char *name, const wchar_t *val);
-  Z7_IFACE_IMP_NONFINAL(IUpdateCallbackUI)
-    Z7_IFACE_IMP_NONFINAL(IDirItemsCallback)
-    Z7_IFACE_IMP_NONFINAL(IUpdateCallbackUI2)
+  Z7_IFACE_IMP(IUpdateCallbackUI)
+  Z7_IFACE_IMP(IDirItemsCallback)
+  Z7_IFACE_IMP(IUpdateCallbackUI2)
 public:
   bool DeleteMessageWasShown;
 
-#ifndef Z7_NO_CRYPTO
+  #ifndef Z7_NO_CRYPTO
   bool PasswordIsDefined;
   bool AskPassword;
   UString Password;
-#endif
+  #endif
 
-  CUpdateCallbackConsole() :
-    DeleteMessageWasShown(false)
-#ifndef Z7_NO_CRYPTO
-    , PasswordIsDefined(false)
-    , AskPassword(false)
-#endif
-  {}
+  CUpdateCallbackConsole():
+      DeleteMessageWasShown(false)
+      #ifndef Z7_NO_CRYPTO
+      , PasswordIsDefined(false)
+      , AskPassword(false)
+      #endif
+      {}
 
   /*
   void Init(CStdOutStream *outStream)

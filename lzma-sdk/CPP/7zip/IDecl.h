@@ -3,7 +3,7 @@
 #ifndef ZIP7_INC_IDECL_H
 #define ZIP7_INC_IDECL_H
 
-#include "../Common/Common.h"
+#include "../Common/Common0.h"
 #include "../Common/MyUnknown.h"
 
 #define k_7zip_GUID_Data1 0x23170F69
@@ -59,7 +59,6 @@
 
 #define Z7_IFACE_PURE(name)               Z7_IFACEN_ ## name(=0;)
 #define Z7_IFACE_IMP(name)                Z7_IFACEN_ ## name(Z7_override Z7_final;)
-#define Z7_IFACE_IMP_NONFINAL(name)       Z7_IFACEN_ ## name(Z7_override;)
 
 #define Z7_IFACE_COM7_PURE(name)          Z7_IFACEM_ ## name(Z7_COM7F_PURE)
 #define Z7_IFACE_COM7_IMP(name)           Z7_IFACEM_ ## name(Z7_COM7F_IMP)

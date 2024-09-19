@@ -54,11 +54,6 @@ HRESULT CHashCallbackConsole::ScanError(const FString &path, DWORD systemError)
   return ScanError_Base(path, systemError);
 }
 
-HRESULT CHashCallbackConsole::OverrideLogName(const FString &physPath, UString &logPath, bool isDir)
-{
-  return S_FALSE;  
-}
-
 void Print_DirItemsStat(AString &s, const CDirItemsStat &st);
 
 HRESULT CHashCallbackConsole::FinishScanning(const CDirItemsStat &st)
@@ -319,7 +314,7 @@ HRESULT CHashCallbackConsole::SetOperationResult(UInt64 fileSize, const CHashBun
     else
     {
       UString temp (_fileName);
-      _so->Normalize_UString(temp);
+      _so->Normalize_UString_Path(temp);
       _so->Convert_UString_to_AString(temp, s);
     }
     PrintResultLine(fileSize, hb.Hashers, k_HashCalc_Index_Current, showHash, s);
