@@ -17,3 +17,7 @@ target_link_libraries(7ZapTest
 
 target_precompile_headers(7ZapTest
 	PRIVATE pch.h)
+
+if(${CMAKE_GENERATOR_PLATFORM} STREQUAL "Win32")
+	target_link_options(7ZapTest PUBLIC "-SAFESEH:NO")
+endif()

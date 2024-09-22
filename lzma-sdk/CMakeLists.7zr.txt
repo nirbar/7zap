@@ -210,14 +210,13 @@ if(${CMAKE_GENERATOR_PLATFORM} STREQUAL "x64")
 	list(APPEND src_7zr_shared_asm Asm/x86/Sha256Opt.asm)
 	list(APPEND src_7zr_shared_asm Asm/x86/LzFindOpt.asm)
 
-#TODO: This fails with error "error LNK2026: module unsafe for SAFESEH image"	
-#elseif(${CMAKE_GENERATOR_PLATFORM} STREQUAL "Win32")
-#	list(APPEND src_7zr_shared_asm Asm/x86/7zCrcOpt.asm)
-#	list(APPEND src_7zr_shared_asm Asm/x86/XzCrc64Opt.asm)
-#	list(APPEND src_7zr_shared_asm Asm/x86/AesOpt.asm)
-#	list(APPEND src_7zr_shared_asm Asm/x86/Sha256Opt.asm)
-#
-#	list(APPEND src_7zr_shared C/LzFindOpt.c)
+elseif(${CMAKE_GENERATOR_PLATFORM} STREQUAL "Win32")
+	list(APPEND src_7zr_shared_asm Asm/x86/7zCrcOpt.asm)
+	list(APPEND src_7zr_shared_asm Asm/x86/XzCrc64Opt.asm)
+	list(APPEND src_7zr_shared_asm Asm/x86/AesOpt.asm)
+	list(APPEND src_7zr_shared_asm Asm/x86/Sha256Opt.asm)
+
+	list(APPEND src_7zr_shared C/LzFindOpt.c)
 	
 else()
 	list(APPEND src_7zr_shared C/7zCrcOpt.c)
@@ -245,3 +244,7 @@ add_executable(7zr ${src_7zr_exe})
 target_link_libraries(7zr $<LINK_LIBRARY:WHOLE_ARCHIVE,7zrLib>)
 
 target_sources(7zr PUBLIC ${hdr_7zr_shared})
+
+if(${CMAKE_GENERATOR_PLATFORM} STREQUAL "Win32")
+	target_link_options(7zr PUBLIC "-SAFESEH:NO")
+endif()

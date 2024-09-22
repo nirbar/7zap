@@ -26,3 +26,7 @@ target_include_directories(7Zap
 
 target_precompile_headers(7Zap
 	PRIVATE pch.h)
+
+if(${CMAKE_GENERATOR_PLATFORM} STREQUAL "Win32")
+	target_link_options(7Zap PUBLIC "-SAFESEH:NO")
+endif()
