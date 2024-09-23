@@ -16,7 +16,7 @@ list(APPEND src_7zap 7Zap.def)
 list(APPEND src_7zap ${CMAKE_CURRENT_BINARY_DIR}/7Zap.rc)
 
 add_library(7Zap SHARED)
-target_link_libraries(7Zap $<LINK_LIBRARY:WHOLE_ARCHIVE,7zrLib>)
+target_link_libraries(7Zap PRIVATE $<LINK_LIBRARY:WHOLE_ARCHIVE,7zrLib>)
 target_sources(7Zap PRIVATE ${src_7zap}
 				PRIVATE ${hdr_7zap}
 				PUBLIC ${pub_hdr_7zap})

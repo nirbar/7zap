@@ -9,15 +9,8 @@ add_executable(7ZapTest)
 target_sources(7ZapTest PRIVATE ${src_7zap_test}
 				PRIVATE ${hdr_7zap_test})
 
-target_include_directories(7ZapTest
-	PRIVATE ${CMAKE_SOURCE_DIR})
-
-target_link_libraries(7ZapTest 
-	$<LINK_LIBRARY:WHOLE_ARCHIVE,7zrLib>)
-
-target_precompile_headers(7ZapTest
-	PRIVATE pch.h)
-
-if(${CMAKE_GENERATOR_PLATFORM} STREQUAL "Win32")
-	target_link_options(7ZapTest PUBLIC "-SAFESEH:NO")
-endif()
+target_link_libraries(7ZapTest 7Zap)
+add_custom_command(TARGET 7ZapTest POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:7ZapTest> $<TARGET_FILE_DIR:7ZapTest>
+  COMMAND_EXPAND_LISTS
+  )
