@@ -1,5 +1,6 @@
 #include "..\7Zap\7Zap.h"
 #include <Windows.h>
+using namespace SevenZap;
 
 int wmain(int argc, wchar_t** argv)
 {
@@ -22,7 +23,7 @@ int wmain(int argc, wchar_t** argv)
   }
 
   const wchar_t* pCompressFolder = &compressFolder[0];
-  Update7z(archivePath, NULL, 1, &pCompressFolder, nullptr);
+  Update7z(archivePath, NULL, 1, &pCompressFolder, nullptr, CompressionLevel::X1_Fastest);
 
   Extract7z(archivePath, targetFolder);
 }

@@ -14,22 +14,24 @@ namespace SevenZap
 		private static extern void Update7z_x64(
 			string archivePath, SafeWaitHandle hCancelEvent, int numFiles
 			, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 1)] string[] files
-			, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 1)] string[] entryNames = null);
+			, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 1)] string[] entryNames
+			, [MarshalAs(UnmanagedType.I4)] SevenZap.CompressionLevel level);
 
 		[DllImport("win-x86\\7Zap", CallingConvention = CallingConvention.StdCall, PreserveSig = false, EntryPoint = "Update7z", CharSet = CharSet.Unicode)]
 		private static extern void Update7z_x86(
 			string archivePath, SafeWaitHandle hCancelEvent, int numFiles
 			, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 1)] string[] files
-			, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 1)] string[] entryNames = null);
+			, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 1)] string[] entryNames
+			, [MarshalAs(UnmanagedType.I4)] SevenZap.CompressionLevel level);
 
 		[DllImport("win-arm64\\7Zap", CallingConvention = CallingConvention.StdCall, PreserveSig = false, EntryPoint = "Update7z", CharSet = CharSet.Unicode)]
 		private static extern void Update7z_arm64(
 			string archivePath, SafeWaitHandle hCancelEvent, int numFiles
 			, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 1)] string[] files
-			, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 1)] string[] entryNames = null);
+			, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 1)] string[] entryNames
+			, [MarshalAs(UnmanagedType.I4)] SevenZap.CompressionLevel level);
 
-
-		internal static void UpdateArchive(string archivePath, ManualResetEvent cancelEvent, IEnumerable<string> files, IEnumerable<string> entryNames = null)
+		internal static void UpdateArchive(string archivePath, ManualResetEvent cancelEvent, IEnumerable<string> files, IEnumerable<string> entryNames = null, SevenZap.CompressionLevel level = SevenZap.CompressionLevel.X5_Medium)
 		{
 			if (Environment.OSVersion.Platform != PlatformID.Win32NT)
 			{
@@ -38,17 +40,17 @@ namespace SevenZap
 
 			if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
 			{
-				Update7z_arm64(archivePath, cancelEvent.SafeWaitHandle, files.Count(), files.ToArray(), entryNames?.ToArray());
+				Update7z_arm64(archivePath, cancelEvent.SafeWaitHandle, files.Count(), files.ToArray(), entryNames?.ToArray(), level);
 				return;
 			}
 
 			if (Environment.Is64BitProcess)
 			{
-				Update7z_x64(archivePath, cancelEvent.SafeWaitHandle, files.Count(), files.ToArray(), entryNames?.ToArray());
+				Update7z_x64(archivePath, cancelEvent.SafeWaitHandle, files.Count(), files.ToArray(), entryNames?.ToArray(), level);
 				return;
 			}
 
-			Update7z_x86(archivePath, cancelEvent.SafeWaitHandle, files.Count(), files.ToArray(), entryNames?.ToArray());
+			Update7z_x86(archivePath, cancelEvent.SafeWaitHandle, files.Count(), files.ToArray(), entryNames?.ToArray(), level);
 			return;
 		}
 		#endregion

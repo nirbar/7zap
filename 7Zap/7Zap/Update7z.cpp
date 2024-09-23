@@ -48,15 +48,51 @@ extern const CHasherInfo *g_Hashers[];
 extern bool g_IsNT;
 bool g_IsNT = true;
 
-DECLARE_AND_SET_CLIENT_VERSION_VAR
-
-static int WarningsCheck(HRESULT result, const CCallbackConsoleBase& callback, const CUpdateErrorInfo& errorInfo, bool showHeaders);
-
-extern "C" HRESULT __stdcall Update7z(const FChar* archivePath, HANDLE hCancelEvent, const int numFiles, const FChar** files, const wchar_t** entryNames)
+namespace SevenZap
 {
+  DECLARE_AND_SET_CLIENT_VERSION_VAR
+
+  static int WarningsCheck(HRESULT result, const CCallbackConsoleBase& callback, const CUpdateErrorInfo& errorInfo, bool showHeaders);
+
+  extern "C" HRESULT __stdcall Update7z(const FChar* archivePath, HANDLE hCancelEvent, const int numFiles, const FChar** files, const wchar_t** entryNames, CompressionLevel level)
+  {
     HRESULT retCode = S_OK;
     CUpdateOptions uo;
 
+    CProperty xLevel;
+    switch (level)
+    {
+    case CompressionLevel::X1_Fastest:
+      xLevel.Name = "x1";
+      break;
+    case CompressionLevel::X2:
+      xLevel.Name = "x2";
+      break;
+    case CompressionLevel::X3:
+      xLevel.Name = "x3";
+      break;
+    case CompressionLevel::X4:
+      xLevel.Name = "x4";
+      break;
+    default:
+    case CompressionLevel::X5_Medium:
+      xLevel.Name = "x5";
+      break;
+    case CompressionLevel::X6:
+      xLevel.Name = "x6";
+      break;
+    case CompressionLevel::X7:
+      xLevel.Name = "x7";
+      break;
+    case CompressionLevel::X8:
+      xLevel.Name = "x8";
+      break;
+    case CompressionLevel::X9_Smallest:
+      xLevel.Name = "x9";
+      break;
+    }
+
+    uo.MethodMode.Properties.Add(xLevel);
     CUpdateArchiveCommand updateCommand;
     updateCommand.ActionSet = NUpdateArchive::k_ActionSet_Update;
     uo.Commands.Add(updateCommand);
@@ -71,62 +107,63 @@ extern "C" HRESULT __stdcall Update7z(const FChar* archivePath, HANDLE hCancelEv
     NWildcard::CCensor censor;
     for (int i = 0; i < numFiles; ++i)
     {
-        const FChar* file = files[i];
-        if (file && *file)
-        {
-            NWildcard::CCensorPathProps censorProps;
-            censorProps.WildcardMatching = DoesNameContainWildcard(file);
-            censorProps.Recursive = censorProps.WildcardMatching;
-            censorProps.MarkMode = NWildcard::kMark_FileOrDir;
+      const FChar* file = files[i];
+      if (file && *file)
+      {
+        NWildcard::CCensorPathProps censorProps;
+        censorProps.WildcardMatching = DoesNameContainWildcard(file);
+        censorProps.Recursive = censorProps.WildcardMatching;
+        censorProps.MarkMode = NWildcard::kMark_FileOrDir;
 
-            censor.AddItem(NWildcard::k_RelatPath, true, file, censorProps);
-        }
+        censor.AddItem(NWildcard::k_RelatPath, true, file, censorProps);
+      }
     }
 
     CREATE_CODECS_OBJECT;
     codecs->Load();
 
     retCode = UpdateArchive(codecs,
-        types,
-        archivePath,
-        censor,
-        uo,
-        errorInfo, &openCallback, &callback, true);
+      types,
+      archivePath,
+      censor,
+      uo,
+      errorInfo, &openCallback, &callback, true);
 
     callback.ClosePercents2();
 
     if (retCode < 0)
     {
-        return retCode;
+      return retCode;
     }
 
     retCode = WarningsCheck(retCode, callback, errorInfo,
-        true // options.EnableHeaders
+      true // options.EnableHeaders
     );
     return retCode;
-}
+  }
 
-static int WarningsCheck(HRESULT result, const CCallbackConsoleBase& callback, const CUpdateErrorInfo& errorInfo, bool showHeaders)
-{
+  static int WarningsCheck(HRESULT result, const CCallbackConsoleBase& callback, const CUpdateErrorInfo& errorInfo, bool showHeaders)
+  {
     int exitCode = NExitCode::kSuccess;
 
     if (callback.ScanErrors.Paths.Size() != 0)
     {
-        exitCode = NExitCode::kWarning;
+      exitCode = NExitCode::kWarning;
     }
 
     if (result != S_OK || errorInfo.ThereIsError())
     {
-        // we will work with (result) later
-        // throw CSystemException(result);
-        return HRESULT_FROM_7ZAP(NExitCode::kFatalError);
+      // we will work with (result) later
+      // throw CSystemException(result);
+      return HRESULT_FROM_7ZAP(NExitCode::kFatalError);
     }
 
     unsigned numErrors = callback.FailedFiles.Paths.Size();
     if (numErrors != 0)
     {
-        exitCode = NExitCode::kWarning;
+      exitCode = NExitCode::kWarning;
     }
 
     return exitCode;
-}
+  }
+};

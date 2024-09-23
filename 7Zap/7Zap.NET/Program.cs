@@ -19,7 +19,7 @@ namespace SevenZap
 				string archive = args[0];
 				List<string> files = new List<string>(args);
 				files.RemoveAt(0);
-				SevenZap.UpdateArchive(archive, files);
+				SevenZap.UpdateArchive(archive, files, null, SevenZap.CompressionLevel.X8);
 
 				string targetFolder = Path.Combine(Path.GetDirectoryName(archive), Path.GetFileNameWithoutExtension(archive));
 				SevenZap.Extract(archive, targetFolder);
