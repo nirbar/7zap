@@ -77,7 +77,6 @@ Z7_PURE_INTERFACES_BEGIN
 #define Z7_IFACEN_IDirItemsCallback(x) \
   virtual HRESULT ScanError(const FString &path, DWORD systemError) x \
   virtual HRESULT ScanProgress(const CDirItemsStat &st, const FString &path, bool isDir) x \
-  virtual HRESULT OverrideLogName(const FString &physPath, UString &logPath, bool isDir) x \
 
 Z7_IFACE_DECL_PURE(IDirItemsCallback)
 
