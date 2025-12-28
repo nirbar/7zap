@@ -9,6 +9,7 @@ namespace SevenZap
 	{
 		public enum CompressionLevel
 		{
+			None = 0,
 			X1_Fastest = 1,
 			X2 = 2,
 			X3 = 3,

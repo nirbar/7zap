@@ -62,6 +62,9 @@ namespace SevenZap
     CProperty xLevel;
     switch (level)
     {
+    case CompressionLevel::None:
+      xLevel.Name = "x0";
+      break;
     case CompressionLevel::X1_Fastest:
       xLevel.Name = "x1";
       break;
