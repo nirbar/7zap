@@ -1,7 +1,7 @@
 ; SortTest.asm -- ASM version of HeapSort() function
 ; Igor Pavlov : Public domain
 
-include 7zAsm.asm
+include ../../../../Asm/x86/7zAsm.asm
 
 MY_ASM_START
 
