@@ -99,14 +99,14 @@ public:
 };
 
 
-class CUpdateCallbackConsole Z7_final:
+class CUpdateCallbackConsole :
   public IUpdateCallbackUI2,
   public CCallbackConsoleBase
 {
   // void PrintPropPair(const char *name, const wchar_t *val);
-  Z7_IFACE_IMP(IUpdateCallbackUI)
-  Z7_IFACE_IMP(IDirItemsCallback)
-  Z7_IFACE_IMP(IUpdateCallbackUI2)
+  Z7_IFACE_IMP_NONFINAL(IUpdateCallbackUI)
+  Z7_IFACE_IMP_NONFINAL(IDirItemsCallback)
+  Z7_IFACE_IMP_NONFINAL(IUpdateCallbackUI2)
 
   HRESULT MoveArc_UpdateStatus();
 

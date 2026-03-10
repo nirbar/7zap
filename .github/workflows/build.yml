@@ -10,7 +10,7 @@ on:
         type: boolean
 
 env:
-  SEVENZIP_VERSION: '25.01'
+  SEVENZIP_VERSION: '26.00'
 
 jobs:
   Build:
