@@ -15,6 +15,8 @@ env:
 jobs:
   Build:
     runs-on: windows-latest
+    permissions:
+      id-token: write  # For nuget.org publish
     steps:
       - uses: actions/checkout@v4.1.7
         with:
@@ -55,12 +57,19 @@ jobs:
           name: 7Zap
           path: |
             7Zap.*.nupkg
+    
+      # Generate NuGet API key
+      - name: NuGet login (OIDC → temp API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: Nir.Bar
 
       - name: Publish nuget packages to github and nuget.org
         if: ${{ github.event.inputs.publish_nuget == 'true' }}
         run: |
           dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.TAGGER_PAT }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
           dotnet nuget push 7Zap.*.nupkg --api-key ${{ secrets.TAGGER_PAT }} --source github
-          dotnet nuget push 7Zap.*.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
+          dotnet nuget push 7Zap.*.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
           git tag "v${{ env.SEVENZIP_VERSION }}.${{ github.run_number }}"
           git push --tags
