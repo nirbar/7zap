@@ -10,7 +10,7 @@ on:
         type: boolean
 
 env:
-  SEVENZIP_VERSION: '26.00'
+  SEVENZIP_VERSION: '26.02'
 
 jobs:
   Build:
@@ -46,7 +46,7 @@ jobs:
 
       - name: Build 7Zap.NET
         run: |
-          msbuild 7Zap\dirs.proj -restore -p:FullVersion=${{ env.SEVENZIP_VERSION }}.${{ github.run_number }}
+          msbuild 7Zap\dirs.proj -restore -p:Configuration=Release -p:FullVersion=${{ env.SEVENZIP_VERSION }}.${{ github.run_number }}
 
       - name: Nuget pack
         run: |

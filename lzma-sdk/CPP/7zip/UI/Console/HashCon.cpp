@@ -54,6 +54,11 @@ HRESULT CHashCallbackConsole::ScanError(const FString &path, DWORD systemError)
   return ScanError_Base(path, systemError);
 }
 
+HRESULT CHashCallbackConsole::OverrideLogName(const FString &physPath, UString &logPath, bool isDir)
+{
+  return S_FALSE;  
+}
+
 void Print_DirItemsStat(AString &s, const CDirItemsStat &st);
 
 HRESULT CHashCallbackConsole::FinishScanning(const CDirItemsStat &st)

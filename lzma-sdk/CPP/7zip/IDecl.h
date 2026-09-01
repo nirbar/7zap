@@ -59,6 +59,7 @@
 
 #define Z7_IFACE_PURE(name)               Z7_IFACEN_ ## name(=0;)
 #define Z7_IFACE_IMP(name)                Z7_IFACEN_ ## name(Z7_override Z7_final;)
+#define Z7_IFACE_IMP_NONFINAL(name)       Z7_IFACEN_ ## name(Z7_override;)
 
 #define Z7_IFACE_COM7_PURE(name)          Z7_IFACEM_ ## name(Z7_COM7F_PURE)
 #define Z7_IFACE_COM7_IMP(name)           Z7_IFACEM_ ## name(Z7_COM7F_IMP)
